@@ -25,6 +25,7 @@ class LoginController
 		 header("location: /src/MX/View/dashboard.php");
 	      }else {
 		 $error = "Your Login Name or Password is invalid";
+		 return $error;
 	      }
 
 	}

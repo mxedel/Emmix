@@ -20,8 +20,9 @@ use MX\View\Form\LoginForm;
 <?php
    if (!empty($_POST['login'])) {
         $controller = new LoginController();
-         $user = $controller->login();
-        
+        $result = $controller->login();
+        echo $result;
+        echo LoginForm::render();
 } else {
 	?>
 	<h1>Welcome at EMMEX</h1>
