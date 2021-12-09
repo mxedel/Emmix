@@ -6,6 +6,7 @@ spl_autoload_register(function ($class) {
     require_once $fn;
 });
 
+include __DIR__. '/../src/MX/config/config.php';
 use MX\Controller\LoginController;
 use MX\Controller\DashboardController;
 use MX\View\Form\LoginForm;
@@ -19,8 +20,8 @@ use MX\View\Form\LoginForm;
 <section id="container">
 <?php
    if (!empty($_POST['login'])) {
-        $controller = new LoginController();
-        $result = $controller->login();
+        $login = new LoginController();
+        $result = $login->login($config);
         echo $result;
         echo LoginForm::render();
 } else {

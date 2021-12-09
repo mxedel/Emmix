@@ -4,7 +4,7 @@ use MX\Models\User\UserFactory;
 use MX\Models\DB\DB;
 class UserController
 {
-    public function user()
+    public function user($config)
     {
 		$min = 1;
 		$max = 1000;
@@ -13,17 +13,22 @@ class UserController
 		$ident = rand($min,$max);
 		$fname = $_POST['fname'] ?? '';
 		$lname = $_POST['lname'] ?? '';
+		$username = $_POST['username'] ?? '';
+		$email = $_POST['email'] ?? '';
 		$role = $_POST['role'] ?? '';
 		$password = $_POST['password'] ?? '';
-		$newuser = $factory->createUser($ident, $fname, $lname, $password, $role);
+		$regex = "/[-0-9a-zA-Z.+_]+@[-0-9a-zA-Z.+_]+.[a-zA-Z]{2,4}/";
+		if(preg_match($regex, $email)){
+			$newuser = $factory->createUser($ident, $fname, $lname, $username, $email, $password, $role, $config);
+		}
     }
     
-    public function DisplayUsers()
+    public function displayUsers($config)
     {
 	      $db = new DB();
-	      $db = $db->dbConnection();
+	      $conn = $db->dbConnection($config);
 	      $sql = "SELECT * FROM users";
-	      $result = mysqli_query($db,$sql);
+	      $result = $conn->query($sql);
 	      return $result;
     }
 }

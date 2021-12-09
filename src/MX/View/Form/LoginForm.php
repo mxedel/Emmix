@@ -8,8 +8,8 @@ class LoginForm
         return 
 		<<<EOT
 		<form class="loginform" method="post" action="/public/index.php">
-		<div><label>Username:</label><input type="text" name="username" value="Gordon"/></div>
-		<div><label>Password:</label><input type="password" name="password" value="Ramsay"/></div>
+		<div><label>Username:</label><input type="text" name="username" /></div>
+		<div><label>Password:</label><input type="password" name="password"/></div>
 		<input type="submit" name="login"/>
 		</form>
 		EOT;

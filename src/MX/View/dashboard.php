@@ -5,7 +5,13 @@ spl_autoload_register(function ($class) {
 });
 use MX\Controller\UserController;
 use MX\View\Form\UserForm;
-session_start();
+use MX\Models\Session\UserSession;
+
+include '../config/config.php';
+
+$userSession = new UserSession();
+$username = $userSession->getSession('Username');
+
 ?>
 <html>
 <head>
@@ -13,14 +19,14 @@ session_start();
 </head>
 <body>	
 
-<?php if(!$_SESSION['login_user']) {
+<?php if(!$username) {
 	header('location:/public/index.php');
 	}
 ?>
-<?php if($_SESSION['login_user']):?>
-<section id="container">
+<?php if($username):?>
    <body>
-      <h1>Welcome  <?php echo $_SESSION['login_user']; ?></h1> 
+<section id="container">
+      <h1>Welcome  <?= $username; ?></h1> 
       <h2>List of Users</h2>
       
       <table>
@@ -34,8 +40,8 @@ session_start();
       	</thead>
       	<tbody>
       	 <?php $getUsers = new UserController();?>
-      	 <?php $users = $getUsers->DisplayUsers();?>
-      	 <?php while($row = mysqli_fetch_assoc($users)):?>
+      	 <?php $users = $getUsers->displayUsers($config);?>
+      	 <?php while($row = $users->fetch(PDO::FETCH_ASSOC)) : ?>
       	 	<td><?=$row['id'];?></td>
       	 	<td><?=$row['Firstname'];?></td>
       	 	<td><?=$row['Lastname']?></td>
@@ -44,9 +50,8 @@ session_start();
       	<?php endwhile;?>
       	</tbody>
       </table>
-      
-   	<?php echo UserForm::render();?>
-   	<?php endif;?>
+      <?php echo UserForm::render();?>
+   	</section>
    </body>
-   
+   <?php endif;?>
 </html>
